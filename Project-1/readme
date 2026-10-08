@@ -1,0 +1,83 @@
+Employee Attrition Analyzer
+A machine learning project built with Python and scikit-learn to analyze employee records and predict whether an employee is likely to leave an organization.
+
+📌 Project Overview
+Employee turnover is costly and disruptive. The goal of this project is to build and evaluate predictive models that identify early warning signs of attrition using demographic, financial, and workplace satisfaction indicators.
+
+Objectives
+Preprocess both categorical and numerical features for machine learning algorithms.
+
+Train and benchmark three classification models: Logistic Regression, Decision Tree, and Random Forest.
+
+Address real-world class imbalance (around 16% positive attrition rate).
+
+Evaluate model predictions using Confusion Matrices, Accuracy, and F1 Scores.
+
+Identify key operational drivers of employee departure using feature importance and regression coefficients.
+
+📊 Dataset Description
+Dataset Name: IBM HR Analytics Employee Attrition & Performance (WA_Fn-UseC_-HR-Employee-Attrition.csv)
+
+Total Records: 1,470 employees
+
+Total Features: 35 columns
+
+Target Variable: Attrition (Yes = 1, No = 0)
+
+Class Distribution: 1,233 retained (~83.9%) vs. 237 departed (~16.1%)
+
+⚙️ Project Pipeline
+Data Cleaning:
+
+Removed zero-variance and redundant identifier columns (EmployeeCount, StandardHours, Over18, EmployeeNumber).
+
+Feature Preprocessing:
+
+One-hot encoded categorical variables using pd.get_dummies(drop_first=True) (e.g., Department, JobRole, OverTime, MaritalStatus).
+
+Scaled numerical features with StandardScaler to ensure stable convergence for gradient- and distance-sensitive models.
+
+Data Splitting:
+
+Split into 80% training and 20% testing sets with a fixed random state for reproducibility.
+
+Model Training & Comparison:
+
+Logistic Regression: Linear probabilistic classifier.
+
+Decision Tree Classifier: Tree-based partitioning with a controlled depth (max_depth=5) to prevent overfitting.
+
+Random Forest Classifier: Ensemble of 100 decision trees to assess variance reduction and feature importances.
+
+Evaluation & Visualization:
+
+Computed Accuracy, Precision, Recall, and F1 Score on unseen test data.
+
+Plotted Confusion Matrices for each model side-by-side.
+
+Extracted and plotted the Top 10 Feature Importances via Random Forest.
+
+📈 Key Findings & Feature Drivers
+Overtime: Employees who regularly work overtime exhibit the highest turnover risk across all models.
+
+Compensation & Role: Lower MonthlyIncome and entry-level positions (e.g., Sales Representatives, Laboratory Technicians) show higher turnover frequency.
+
+Career Longevity & Relationship: Higher TotalWorkingYears and more YearsWithCurrManager serve as strong retention factors.
+
+🛠️ Requirements & Installation
+Ensure you have Python 3.8+ installed, then install the required dependencies:
+
+Bash
+pip install pandas numpy scikit-learn matplotlib seaborn
+🚀 How to Run
+Clone or download this repository:
+
+Bash
+git clone https://github.com/your-username/employee-attrition-analyzer.git
+cd employee-attrition-analyzer
+Place WA_Fn-UseC_-HR-Employee-Attrition.csv into the project directory.
+
+Run the script:
+
+Bash
+python attrition_analyzer.py
