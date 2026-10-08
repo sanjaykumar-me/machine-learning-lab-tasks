@@ -1,65 +1,61 @@
-# Employee Attrition Analyzer
+# 👥 Employee Attrition Analyzer
 
-A machine learning project built with Python and scikit-learn to analyze employee records and predict whether an employee is likely to leave an organization.
+[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg?logo=python&logoColor=white)](https://www.python.org/)
+[![Scikit-Learn](https://img.shields.io/badge/scikit--learn-F7931E.svg?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
+[![Pandas](https://img.shields.io/badge/Pandas-150458.svg?logo=pandas&logoColor=white)](https://pandas.pydata.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Status](https://img.shields.io/badge/Status-Completed-brightgreen.svg)]()
+
+An end-to-end Machine Learning pipeline to predict employee turnover risk using organizational, financial, and workplace sentiment data from the **IBM HR Analytics** dataset.
 
 ---
 
-## 📌 Project Overview
+## 📌 Executive Summary
 
-Employee turnover is costly, time-consuming, and disruptive to team productivity. The goal of this project is to build and evaluate predictive machine learning models that identify early warning signs of employee attrition based on workplace satisfaction, compensation, role characteristics, and demographic factors.
+Employee turnover disrupts team dynamics, slows down delivery, and introduces substantial replacement costs. This project builds a complete predictive analytics pipeline designed to help People Ops and HR leaders proactively flag flight-risk employees before they leave.
 
 ### Key Objectives:
-- Clean and preprocess structured tabular HR data containing numerical and categorical variables.
-- Handle real-world class imbalance (~16% positive turnover rate).
-- Train and compare three classification models: **Logistic Regression**, **Decision Tree**, and **Random Forest**.
-- Evaluate model quality using **Accuracy**, **Confusion Matrix**, **Precision**, **Recall**, and **F1 Score**.
-- Extract and visualize the top feature importances to highlight primary drivers of employee turnover.
+- Clean and prepare mixed tabular data (handling high cardinality, constant values, and scaling).
+- Tackle real-world target imbalance (~16% attrition rate).
+- Train and compare **Logistic Regression**, **Decision Tree**, and **Random Forest** classifiers.
+- Evaluate models using multi-metric diagnostics (**Confusion Matrix**, **F1 Score**, **Recall**, and **ROC-AUC**).
+- Identify and rank top organizational churn drivers to provide actionable retention strategies.
 
 ---
 
-## 📊 Dataset Description
+## 📊 Dataset Profile
 
-- **Source Dataset:** IBM HR Analytics Employee Attrition & Performance (`WA_Fn-UseC_-HR-Employee-Attrition.csv`)
-- **Total Records:** 1,470 employee entries
-- **Total Features:** 35 attributes
-- **Target Variable:** `Attrition` (`Yes` = 1, `No` = 0)
-- **Class Balance:** 
-  - Retained (`No`): 1,233 records (~83.9%)
-  - Departed (`Yes`): 237 records (~16.1%)
-
----
-
-## ⚙️ Methodology & Pipeline
-
-1. **Data Cleaning:**
-   - Identified and removed constant columns with zero variance (`EmployeeCount`, `StandardHours`, `Over18`) as well as unique arbitrary identifiers (`EmployeeNumber`).
-2. **Feature Preprocessing:**
-   - Categorical columns (such as `Department`, `JobRole`, `OverTime`, and `MaritalStatus`) were encoded using `pd.get_dummies(drop_first=True)`.
-   - Continuous numerical features were scaled using `StandardScaler` to ensure standard convergence for gradient and distance-sensitive algorithms.
-3. **Train-Test Split:**
-   - The data was partitioned into **80% training** and **20% testing** sets with fixed seed reproducibility (`random_state=42`).
-4. **Model Training:**
-   - **Logistic Regression:** Linear baseline classifier trained on scaled features.
-   - **Decision Tree Classifier:** Tree-based model with tree depth restriction (`max_depth=5`) to prevent overfitting.
-   - **Random Forest Classifier:** Ensemble of 100 decision trees to capture nonlinear feature interactions.
-5. **Model Evaluation:**
-   - Predicted labels were evaluated across models using Confusion Matrices, F1 Scores, and Accuracy metrics.
-   - Random Forest feature importances were extracted and visualized to interpret key workplace risk factors.
+- **Dataset:** IBM HR Analytics Employee Attrition & Performance (`WA_Fn-UseC_-HR-Employee-Attrition.csv`)
+- **Total Records:** 1,470 employees
+- **Total Attributes:** 35 features
+- **Target Label:** `Attrition` (`Yes` = 1, `No` = 0)
+- **Class Breakdown:**
+  - **Retained (No):** 1,233 (~83.9%)
+  - **Departed (Yes):** 237 (~16.1%)
 
 ---
 
-## 📈 Key Insights & Drivers
+## 🛠️ Architecture & Pipeline
 
-- **Overtime:** Working overtime emerged as one of the single strongest positive predictors of employee turnover.
-- **Compensation & Tenure:** Lower monthly income, lower stock option levels, and shorter total working tenure correlated strongly with higher attrition.
-- **Role Stability:** Frontline positions (such as Sales Representatives and Laboratory Technicians) exhibited noticeably higher churn rates than senior positions.
-- **Manager Continuity:** Longer tenure with the current manager correlated with higher employee retention.
-
----
-
-## 🛠️ Requirements & Installation
-
-Make sure Python 3.8 or later is installed. Install required packages using pip:
-
-```bash
-pip install pandas numpy scikit-learn matplotlib seaborn
+```text
+  Raw CSV Data
+       │
+       ▼
+ [Data Cleaning] ──► Drop zero-variance & ID fields (StandardHours, Over18, etc.)
+       │
+       ▼
+ [Preprocessing] ──► One-Hot Encoding (pd.get_dummies) + StandardScaler
+       │
+       ▼
+  [Train/Test]   ──► 80/20 Stratified Partitioning (random_state=42)
+       │
+       ├──────────────────────┬──────────────────────┐
+       ▼                      ▼                      ▼
+Logistic Regression     Decision Tree          Random Forest
+       │                      │                      │
+       └──────────────────────┼──────────────────────┘
+                              ▼
+                 [Model Evaluation & Plots]
+                 ├── Confusion Matrices
+                 ├── F1 / Recall / Accuracy Metrics
+                 └── Feature Importance Analysis
